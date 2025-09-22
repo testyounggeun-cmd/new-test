@@ -1,0 +1,207 @@
+﻿<!doctype html>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PeriPage Print (105×150mm)</title>
+<style>
+  html,body{margin:0;padding:0;background:#fff;color:#000}
+  body{font-family:-apple-system,system-ui,Segoe UI,Roboto,Arial,"Apple SD Gothic Neo","Noto Sans KR",sans-serif}
+
+  /* 프린트 실제 사이즈 캔버스가 들어가는 래퍼 (픽셀 단위는 JS에서 채움) */
+  #paper{
+    margin:0 auto; background:#fff; box-sizing:content-box;
+    /* width/height/padding 은 JS에서 px로 설정 */
+  }
+
+  /* 콘텐츠 공통 스타일 (원래 주신 표/텍스트 그대로) */
+  .row{margin-bottom:8px}
+  .b{font-weight:700}
+  .hr{height:2px;background:#000;margin:8px 0}
+  table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:13px}
+  td,th{border:1px solid #000;padding:6px 4px;text-align:center;word-break:break-word;white-space:normal}
+  thead th{background:#eaeaea;font-weight:700}
+  .em{font-size:16px;font-weight:700;background:#e0e0e0;padding:6px;text-align:center;margin:8px 0 12px}
+  .money{font-weight:700;font-size:15px}
+
+  /* 미리보기(모바일 화면용) */
+  #preview{display:flex;justify-content:center;padding:8px}
+  #msg{font:12px/1.4 system-ui; text-align:center; color:#444; margin:6px 8px 12px}
+</style>
+
+<div id="paper">
+  <!-- === 여기부터는 기존 템플릿 내용(문구/표 구조 동일) === -->
+
+  <!-- 기본 정보 -->
+  <div class="row b" style="font-size:20px;">이 름: <span data-k="name">이름</span></div>
+  <div class="row b" style="font-size:16px;">연락처: <span data-k="phone">연 락 처</span></div>
+  <div class="hr"></div>
+  <div class="row b" style="font-size:16px;">검 사 일: <span data-k="date">검사일</span></div>
+  <div class="hr"></div>
+
+  <!-- OD/OS 표 -->
+  <table>
+    <colgroup>
+      <col style="width:12.5%"><col style="width:12.5%"><col style="width:12.5%"><col style="width:12.5%">
+      <col style="width:12.5%"><col style="width:12.5%"><col style="width:12.5%"><col style="width:12.5%">
+    </colgroup>
+    <thead>
+      <tr>
+        <th>구분</th><th>SPH</th><th>CYL</th><th>AXIS</th><th>ADD</th><th>단안PD</th><th>PRISM △</th><th>BASE</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="b" style="font-size:14px;">■ OD</td>
+        <td><span data-k="od_sph">OD S값</span></td>
+        <td><span data-k="od_cyl">OD C값</span></td>
+        <td><span data-k="od_axis">OD 축값</span></td>
+        <td><span data-k="od_add">OD ADD</span></td>
+        <td><span data-k="od_pd">OD 단안PD</span></td>
+        <td><span data-k="od_prism">OD 프리즘</span></td>
+        <td><span data-k="od_base">OD 베이스</span></td>
+      </tr>
+      <tr>
+        <td class="b" style="font-size:14px;">■ OS</td>
+        <td><span data-k="os_sph">OS S값</span></td>
+        <td><span data-k="os_cyl">OS C값</span></td>
+        <td><span data-k="os_axis">OS 축값</span></td>
+        <td><span data-k="os_add">OS ADD</span></td>
+        <td><span data-k="os_pd">OS 단안PD</span></td>
+        <td><span data-k="os_prism">OS 프리즘</span></td>
+        <td><span data-k="os_base">OS 베이스</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 양안 PD -->
+  <div class="em">양안 PD: <span data-k="pd">양안PD</span></div>
+
+  <!-- 비고 -->
+  <div class="row b" style="font-size:14px; text-align:left;">비고: <span data-k="remark">특이사항</span></div>
+
+  <!-- 테 / 렌즈 + 가격 -->
+  <table style="margin:0 0 12px">
+    <colgroup><col style="width:33%"><col style="width:33%"><col style="width:34%"></colgroup>
+    <thead><tr><th>항목</th><th>제품</th><th>가격</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="b" style="font-size:14px">테</td>
+        <td><span data-k="frame_brand">테 브랜드</span></td>
+        <td><span data-k="frame_price">테 가격</span> 원</td>
+      </tr>
+      <tr>
+        <td class="b" style="font-size:14px">안경렌즈</td>
+        <td><span data-k="lens_product">안경렌즈 제품</span></td>
+        <td><span data-k="lens_price">안경렌즈 가격</span> 원</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 금액 -->
+  <table>
+    <colgroup><col style="width:33%"><col style="width:33%"><col style="width:34%"></colgroup>
+    <thead><tr><th>총액</th><th>선금</th><th>잔금</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span data-k="sum">합 계</span> 원</td>
+        <td><span data-k="deposit">선 금</span> 원</td>
+        <td class="money"><span data-k="balance">잔 금</span> 원</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div id="preview"></div>
+<div id="msg">공유시트가 자동으로 뜨지 않으면 브라우저의 공유 버튼을 눌러 주세요.</div>
+
+<script>
+(function(){
+  const sp = new URL(location.href).searchParams;
+  const get = (k,d="") => sp.get(k) ? decodeURIComponent(sp.get(k)) : d;
+
+  /* ===== 1) 용지/여백(mm) → px 계산 =====
+     기본값: 105×150mm, 300DPI, 좌우 6mm, 상하 15mm */
+  const mmW = parseFloat(get('mmw','105'));
+  const mmH = parseFloat(get('mmh','150'));
+  const dpi = parseInt(get('dpi','300'),10);          // thermal/label 프린터는 203/300이 일반적
+  const mmMarginH = parseFloat(get('mmlr','6'));      // 좌/우 여백(mm)
+  const mmMarginV = parseFloat(get('mmtb','15'));     // 상/하 여백(mm)
+
+  const mmToPx = (mm) => Math.round((mm/25.4) * dpi);
+  const W = mmToPx(mmW);
+  const H = mmToPx(mmH);
+  const padX = mmToPx(mmMarginH);
+  const padY = mmToPx(mmMarginV);
+
+  const paper = document.getElementById('paper');
+  paper.style.width  = W + 'px';
+  paper.style.height = H + 'px';
+  paper.style.padding = `${padY}px ${padX}px`;
+
+  /* ===== 2) 동적 값 주입 ===== */
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    const key = el.getAttribute('data-k');
+    const v = get(key, null);
+    if (v !== null && v !== '') el.textContent = v;
+  });
+
+  /* 금액 자동 포맷(선택) */
+  const moneyKeys = ['frame_price','lens_price','sum','deposit','balance'];
+  moneyKeys.forEach(k=>{
+    const v = get(k,null);
+    if (v !== null && v !== ''){
+      const n = Number(String(v).replace(/[^\d.-]/g,''));
+      const t = isFinite(n) ? n.toLocaleString() : v;
+      const el = document.querySelector(`[data-k="${k}"]`);
+      if (el) el.textContent = t;
+    }
+  });
+
+  /* ===== 3) HTML → PNG → 공유시트 ===== */
+  async function htmlToPngAndShare(){
+    // foreignObject SVG로 감싸서 래스터화
+    const svg =
+      `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">
+         <foreignObject width="100%" height="100%">
+           ${new XMLSerializer().serializeToString(paper)}
+         </foreignObject>
+       </svg>`;
+    const svgBlob = new Blob([svg], {type:'image/svg+xml;charset=utf-8'});
+    const url = URL.createObjectURL(svgBlob);
+
+    const img = new Image();
+    await new Promise((res, rej)=>{ img.onload=res; img.onerror=rej; img.src=url; });
+
+    const canvas = document.createElement('canvas');
+    canvas.width = W; canvas.height = H;
+    const ctx = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = false;
+    ctx.fillStyle = '#fff'; ctx.fillRect(0,0,W,H);
+    ctx.drawImage(img, 0, 0);
+
+    // 미리보기
+    const preview = document.getElementById('preview');
+    const shot = canvas.toDataURL('image/png');
+    preview.innerHTML = `<img src="${shot}" style="max-width:100%;height:auto" />`;
+
+    // 공유
+    const blob = await new Promise(r => canvas.toBlob(r, 'image/png'));
+    const file = new File([blob], (get('name','print')||'print')+'.png', {type:'image/png'});
+
+    try{
+      if (navigator.canShare && navigator.canShare({files:[file]})) {
+        await navigator.share({ files:[file], title:'Print', text:'' });
+      } else if (navigator.share) {
+        await navigator.share({ title:'Print', url: shot });
+      } else {
+        document.getElementById('msg').textContent = '이 브라우저는 자동 공유를 지원하지 않습니다. 미리보기 이미지를 길게 눌러 저장/공유하세요.';
+      }
+    }catch(e){
+      document.getElementById('msg').textContent = '공유가 취소되었거나 실패했습니다. 다시 시도하세요.';
+    } finally{
+      URL.revokeObjectURL(url);
+    }
+  }
+
+  // 로드 직후 자동 실행
+  window.requestAnimationFrame(htmlToPngAndShare);
+})();
+</script>
